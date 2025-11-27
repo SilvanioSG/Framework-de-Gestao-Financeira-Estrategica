@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Orçamentária Estratégica - Silvanio Gois</title>
+    <style>
+        :root {
+            --primary-color: rgb(39, 98, 141);
+            --primary-dark: rgb(28, 70, 102);
+            --accent-color: #f0f4f8;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fa;
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.3);
+            background-color: #fff;
+        }
+
+        .profile-info h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+        
+        .header-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.3;
+        }
+
+        .profile-info h2 {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            background-color: var(--white);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background-color: #f0f0f0;
+        }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* NOVA INTRODUÇÃO EXPANDIDA */
+        .expanded-intro {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .expanded-intro h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .intro-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .intro-point {
+            padding: 1rem;
+            background: #f8fbff;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .intro-point strong {
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .intro-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .intro-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- TABS SYSTEM --- */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: var(--radius) var(--radius) 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 0 var(--radius) var(--radius) var(--radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- CONTENT STYLING --- */
+        .concept-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .concept-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .concept-tag {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .detail-box h4 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .detail-box p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .example-box {
+            background-color: #eef6fb;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .example-box strong {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        
+        .methodology-note {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        /* --- COMPARISON TABLE --- */
+        .comparison-section {
+            margin-top: 3rem;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .highlight-row {
+            background-color: #f8faff;
+            font-weight: 500;
+        }
+
+        /* NOVO ESTILO PARA COMITÊS */
+        .committee-structure {
+            background: #f8fbff;
+            border: 1px solid #d1e3f8;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .committee-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #d1e3f8;
+        }
+
+        .committee-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .committee-title {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .committee-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 10px;
+        }
+
+        .committee-detail {
+            font-size: 0.9rem;
+        }
+
+        .committee-detail strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* NOVA SEÇÃO: RESUMO EXECUTIVO */
+        .executive-summary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 3rem;
+        }
+
+        .executive-summary h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .action-card h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .action-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .action-card li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .action-card li:before {
+            content: "•";
+            color: #a0c4e3;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            color: #a0c4e3;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-area {
+                flex-direction: column;
+            }
+            .concept-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .tab-btn {
+                width: 100%;
+                border-radius: var(--radius);
+                margin-bottom: 5px;
+            }
+            .tab-content {
+                border-radius: var(--radius);
+            }
+            table {
+                min-width: 700px;
+            }
+            .committee-details {
+                grid-template-columns: 1fr;
+            }
+            .intro-highlights, .action-grid {
+                grid-template-columns: 1fr;
+            }
+            .expanded-intro, .executive-summary {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="header-container">
+            <div class="profile-area">
+                <img src="Executivo_Silvanio_Gestor.JPG" alt="Silvanio Gois" class="profile-img" onerror="this.src='https://via.placeholder.com/80?text=SG'">
+                <div class="profile-info">
+                    <h1>Framework de Gestão Financeira Estratégica</h1>
+                    <p class="header-subtitle">Integrando Orçamento, Forecast e Planejamento para Criação de Valor Sustentável</p>
+                    <h2>Silvanio Gois | Gestão Inteligente e Resultados Sustentáveis</h2>
+                </div>
+            </div>
+            
+            <a href="https://wa.me/5513988301094" target="_blank" class="cta-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Contato
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- NOVA INTRODUÇÃO EXPANDIDA -->
+        <div class="expanded-intro">
+            <h3>Por que a Excelência em Gestão Orçamentária é Decisiva para Resultados Sustentáveis</h3>
+            <p>Em um ambiente empresarial caracterizado por volatilidade, incertezas e intensa competição, a gestão orçamentária transcende sua função tradicional de controle para se tornar a <strong>espinha dorsal da criação de valor sustentável</strong>. Este framework não é sobre preencher planilhas, mas sobre construir uma <strong>disciplina executiva</strong> que conecta decisões diárias à estratégia de longo prazo.</p>
+            
+            <div class="intro-highlights">
+                <div class="intro-point">
+                    <strong>O Problema Real</strong>
+                    <p>Empresas com orçamentos engessados perdem agilidade. Empresas sem governança orçamentária queimam capital. Empresas que não conectam orçamento à estratégia navegam sem rumo.</p>
+                </div>
+                <div class="intro-point">
+                    <strong>A Solução Estratégica</strong>
+                    <p>Integrar Orçamento, Rolling Forecast e Planejamento Estratégico em um ciclo contínuo de melhoria, com governança clara e métricas que realmente importam.</p>
+                </div>
+                <div class="intro-point">
+                    <strong>Resultado Tangível</strong>
+                    <p>Decisões mais rápidas e fundamentadas, alocação eficiente de capital, mitigação proativa de riscos e criação consistente de valor para acionistas e stakeholders.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CICLO DE GESTÃO -->
+        <div class="intro-card">
+            <h3>O Ciclo PDCA Financeiro: Da Estratégia à Execução</h3>
+            <p>Este framework opera através do <strong>Ciclo PDCA Financeiro</strong>: <strong>Planejar</strong> (Estratégia de 5 anos), <strong>Executar</strong> (Orçamento Anual), <strong>Checar</strong> (Rolling Forecast) e <strong>Agir</strong> (Revisões de Governança). A excelência em gestão financeira não vê essas ferramentas isoladamente, mas como um <strong>ecossistema integrado de criação de valor</strong>.</p>
+        </div>
+
+        <!-- NAVEGAÇÃO POR ABAS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'orcamento')">1. Orçamento</button>
+            <button class="tab-btn" onclick="openTab(event, 'forecast')">2. Rolling Forecast</button>
+            <button class="tab-btn" onclick="openTab(event, 'estrategia')">3. Planejamento Estratégico</button>
+            <button class="tab-btn" onclick="openTab(event, 'governanca')">4. Governança</button>
+        </div>
+
+        <!-- CONTEÚDO DAS ABAS (mantido igual, mas sem ícones) -->
+        <div id="orcamento" class="tab-content active">
+            <div class="concept-header">
+                <div>
+                    <h2 class="concept-title">Orçamento (Budget)</h2>
+                    <p>Contrato de Desempenho Anual</p>
+                </div>
+                <span class="concept-tag">Curto Prazo: 12 meses</span>
+            </div>
+            
+            <div class="detail-grid">
+                <div class="detail-box">
+                    <h4>Fundamentos & Metodologia</h4>
+                    <p>O orçamento traduz a estratégia em números operacionais. Fundamental definir as <strong>Premissas Macroeconômicas</strong> (Inflação, Câmbio, Dissídio) antes de iniciar.</p>
+                    <div class="example-box">
+                        <strong>Decisão Metodológica:</strong>
+                        <p>Escolha entre <em>OBZ (Orçamento Base Zero)</em> para questionar cada gasto ou <em>Base Histórica</strong> para agilidade. O OBZ é mais denso e revela ineficiências ocultas, enquanto o Histórico perpetua tendências.</p>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <h4>Controle de OPEX vs CAPEX</h4>
+                    <p>A gestão deve separar rigorosamente o custeio da operação (OPEX) dos investimentos (CAPEX). O erro comum é usar verba de investimento para cobrir ineficiência operacional.</p>
+                    <div class="example-box">
+                        <strong>Dica Executiva:</strong>
+                        <p>Crie uma "Reserva de Contingência" centralizada na diretoria financeira (ex: 2% do total) para não inflar as linhas de despesa dos gestores individuais (o famoso "colchão").</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO: FORECAST -->
+        <div id="forecast" class="tab-content">
+            <div class="concept-header">
+                <div>
+                    <h2 class="concept-title">Rolling Forecast</h2>
+                    <p>Navegação Dinâmica e Drivers</p>
+                </div>
+                <span class="concept-tag">Médio Prazo: 12-24 meses</span>
+            </div>
+
+            <div class="detail-grid">
+                <div class="detail-box">
+                    <h4>Meta vs. Forecast</h4>
+                    <p>Crucial diferenciar o "Desejo" (Meta/Orçamento) da "Realidade Provável" (Forecast). O Forecast não serve para julgar desempenho, mas para antecipar a necessidade de caixa.</p>
+                    <div class="example-box">
+                        <strong>Conceito de Blind Spots:</strong>
+                        <p>Use o forecast para identificar "Pontos Cegos". Se o volume de vendas caiu 10%, o forecast deve refletir imediatamente a redução no custo variável e a nova projeção de EBTIDA, sem "maquiagem" para atingir a meta.</p>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <h4>Drivers Operacionais</h4>
+                    <p>Um forecast denso não projeta apenas R$ nas linhas contábeis. Ele projeta <em>Drivers</em>: Headcount, Volume de Produção, Km rodados.</p>
+                    <div class="example-box">
+                        <strong>Acuracidade:</strong>
+                        <p>Monitore o erro do forecast. Se o erro for >5% recorrentemente, revise os modelos de projeção. Forecast errado gera custo de oportunidade (dinheiro parado) ou risco de liquidez (falta de dinheiro).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO: ESTRATÉGIA -->
+        <div id="estrategia" class="tab-content">
+            <div class="concept-header">
+                <div>
+                    <h2 class="concept-title">Planejamento Estratégico</h2>
+                    <p>Criação de Valor e Viabilidade</p>
+                </div>
+                <span class="concept-tag">Longo Prazo: 5+ anos</span>
+            </div>
+
+            <div class="detail-grid">
+                <div class="detail-box">
+                    <h4>Geração de Valor (EVA)</h4>
+                    <p>O foco estratégico é garantir que o retorno sobre o capital investido (ROIC) supere o Custo Médio Ponderado de Capital (WACC). Se ROIC < WACC, a empresa destrói valor, mesmo dando lucro.</p>
+                    <div class="example-box">
+                        <strong>Funding:</strong>
+                        <p>Defina o mix ideal entre Dívida (bancos) e Equity (acionistas). O planejamento estratégico deve dizer *como* vamos pagar pelo crescimento sem comprometer a solvência.</p>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <h4>Conexão com OKRs</h4>
+                    <p>Desdobre a estratégia em OKRs (Objectives and Key Results). O plano financeiro de 5 anos deve "aterrissar" em iniciativas táticas que entrarão no Orçamento do ano 1.</p>
+                    <div class="example-box">
+                        <strong>Custo de Oportunidade:</strong>
+                        <p>Ao aprovar um projeto estratégico, considere o que *deixamos* de fazer. Projetos de inovação tem risco maior e devem ter uma taxa de retorno (Hurdle Rate) ajustada ao risco.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO: GOVERNANÇA -->
+        <div id="governanca" class="tab-content">
+            <div class="concept-header">
+                <div>
+                    <h2 class="concept-title">Governança e Cadência</h2>
+                    <p>Definindo Responsabilidades e Frequência</p>
+                </div>
+                <span class="concept-tag">Ação Contínua</span>
+            </div>
+
+            <div class="detail-grid">
+                <div class="detail-box">
+                    <h4>Ciclo Anual do Orçamento</h4>
+                    <p>O processo deve começar 4 a 5 meses antes do fim do ano fiscal (ex: Setembro). A liderança sênior deve definir o "Target Top-Down" antes que a equipe inicie a projeção "Bottom-Up".</p>
+                    <div class="example-box">
+                        <strong>Responsabilidade:</strong>
+                        <p>CEO e Conselho definem metas de faturamento e EBITDA. CFO é responsável pela consolidação e validação das premissas. Gestores são "donos" das despesas e devem justificar desvios.</p>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <h4>Ritmo de Revisão (Rolling Forecast)</h4>
+                    <p>Recomenda-se uma revisão mensal do Forecast (M+3 a M+6), focada nos Drivers Operacionais, e uma revisão trimestral (Q+1) mais profunda, com re-alocação de capital e análise de risco.</p>
+                    <div class="example-box">
+                        <strong>Reuniões Estratégicas:</strong>
+                        <p>Reunião Mensal (Budget vs. Realizado) e Reunião Trimestral (Forecast vs. Orçamento Original). A última deve focar na tomada de decisão sobre investimentos e necessidade de capital de giro.</p>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <h4>Estrutura de Comitês de Governança</h4>
+                    <p>Definição clara dos fóruns de decisão, composição e atribuições para garantir a eficácia do ciclo orçamentário.</p>
+                    
+                    <div class="committee-structure">
+                        <div class="committee-item">
+                            <div class="committee-title">
+                                <span></span> Comitê de Orçamento e Forecast
+                            </div>
+                            <div class="committee-details">
+                                <div class="committee-detail">
+                                    <strong>Membros:</strong>
+                                    CEO, CFO, Diretores
+                                </div>
+                                <div class="committee-detail">
+                                    <strong>Periodicidade:</strong>
+                                    Mensal (Budget vs Real) e Trimestral (Forecast)
+                                </div>
+                                <div class="committee-detail">
+                                    <strong>Atribuições:</strong>
+                                    Aprovar revisões, realocar recursos, analisar desvios
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="committee-item">
+                            <div class="committee-title">
+                                <span></span> Comitê de Estratégia e Investimentos
+                            </div>
+                            <div class="committee-details">
+                                <div class="committee-detail">
+                                    <strong>Membros:</strong>
+                                    Conselho, CEO, CFO
+                                </div>
+                                <div class="committee-detail">
+                                    <strong>Periodicidade:</strong>
+                                    Anual
+                                </div>
+                                <div class="committee-detail">
+                                    <strong>Atribuições:</strong>
+                                    Aprovar plano estratégico, hurdle rates, carteira de investimentos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABELA COMPARATIVA -->
+        <div class="comparison-section">
+            <h3>Quadro Comparativo Consolidado</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Orçamento</th>
+                            <th>Rolling Forecast</th>
+                            <th>Planejamento Estratégico</th>
+                            <th>Métricas-Chave de Acompanhamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Horizonte</strong></td>
+                            <td>12 Meses (Jan-Dez)</td>
+                            <td>12 a 24 Meses (Móvel)</td>
+                            <td>5 anos ou mais</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ferramenta Chave</strong></td>
+                            <td>Matriz de Despesas / OBZ</td>
+                            <td>Curva S de Caixa / Drivers</td>
+                            <td>Valuation (DCF) / BSC</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Principal KPI</strong></td>
+                            <td>Aderência (Real vs Orçado)</td>
+                            <td>Acuracidade do Modelo</td>
+                            <td>Spread (ROIC - WACC)</td>
+                            <td>-</td>
+                        </tr>
+                        
+                        <tr class="highlight-row">
+                            <td><strong>Métricas-Chave</strong></td>
+                            <td>Aderência (%), Desvio de Premissas</td>
+                            <td>Acuracidade (MAPE), Velocidade de Reação</td>
+                            <td>Spread ROIC-WACC, VPL da Carteira</td>
+                            <td>Monitoramento Contínuo</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><strong>Risco Principal</strong></td>
+                            <td>Rigidez excessiva (Engessar)</td>
+                            <td>Viés Otimista (Wishful Thinking)</td>
+                            <td>Desconexão com a operação</td>
+                            <td>Falta de Ação Corretiva</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- NOVO RESUMO EXECUTIVO COM AÇÕES PRÁTICAS -->
+        <div class="executive-summary">
+            <h3>Plano de Ação Executivo: Próximos Passos para Implementação</h3>
+            <p><strong>Este framework só gera valor quando sai do papel.</strong> Como gestor ou empresário, aqui estão as ações prioritárias para transformar sua gestão orçamentária:</p>
+            
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4> Ações Imediatas (30 dias)</h4>
+                    <ul>
+                        <li>Definir formalmente as premissas macroeconômicas para o próximo ciclo</li>
+                        <li>Estabelecer a Reserva de Contingência de 2% no orçamento atual</li>
+                        <li>Criar o Comitê de Orçamento e Forecast com reunião inaugural</li>
+                        <li>Implementar o monitoramento de acuracidade do forecast</li>
+                    </ul>
+                </div>
+                
+                <div class="action-card">
+                    <h4> Ações Estruturantes (90 dias)</h4>
+                    <ul>
+                        <li>Mapear e documentar os principais Drivers Operacionais do negócio</li>
+                        <li>Implementar a revisão mensal do Rolling Forecast</li>
+                        <li>Definir as métricas de valor (ROIC vs WACC) para decisões estratégicas</li>
+                        <li>Estruturar o processo de aprovação de investimentos com hurdle rates</li>
+                    </ul>
+                </div>
+                
+                <div class="action-card">
+                    <h4> Ações Transformacionais (12 meses)</h4>
+                    <ul>
+                        <li>Integrar completamente o ciclo PDCA Financeiro na cultura organizacional</li>
+                        <li>Implementar OBZ em pelo menos uma área crítica da empresa</li>
+                        <li>Desenvolver sistema de incentivos alinhado às métricas de criação de valor</li>
+                        <li>Estabelecer governance completa com comitês funcionando em ritmo ideal</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.15); border-radius: var(--radius);">
+                <h4 style="color: white; margin-bottom: 1rem;"> Insight:</h4>
+                <p style="color: white; font-style: italic;">"A maior barreira não é técnica, mas cultural. A implementação bem-sucedida requer que líderes abracem a transparência dos números reais versus desejados. O forecast honesto, mesmo quando mostra resultados abaixo da meta, é o maior aliado do gestor que quer tomar decisões fundamentadas."</p>
+                <p style="color: white; margin-top: 1rem; text-align: right;"><strong>- Silvanio Gois</strong></p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Silvanio Gois - Todos os direitos reservados.</p>
+            <a href="https://www.silvaniogois.com.br/" target="_blank" class="footer-link">Ir ao Site Oficial</a>
+        </div>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            
+            evt.currentTarget.className += " active";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialTab = document.getElementById('orcamento');
+            const initialButton = document.querySelector('.tab-btn');
+            if (initialTab && initialButton) {
+                initialTab.style.display = 'block';
+                initialTab.classList.add('active');
+                initialButton.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
